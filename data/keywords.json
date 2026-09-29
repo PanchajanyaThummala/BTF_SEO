@@ -4,19 +4,26 @@
     "handle": "@beyond_the_formationn",
     "hashtag": "#beyondtheformation"
   },
-  "core_keywords": ["football tactics", "tactical analysis", "formation explained", "football analysis"],
+  "core_keywords": ["football tactics", "tactical analysis", "formation explained", "football analysis", "tactics explained"],
   "core_hashtags": ["#footballtactics", "#tacticalanalysis"],
-  "topic_keywords": [
-    "high press", "gegenpressing", "low block", "inverted full-back", "false 9",
-    "build-up play", "half-spaces", "overload", "rest defence", "counter-attack",
-    "4-3-3", "4-2-3-1", "3-5-2", "3-4-3", "4-4-2", "2-3-5"
+  "tactical_terms": [
+    "tactic", "tactics", "tactical", "formation", "press", "pressing", "gegenpressing", "low block", "mid block",
+    "high line", "inverted", "full-back", "fullback", "false 9", "build-up", "build up", "half-space", "half spaces",
+    "overload", "rest defence", "counter", "transition", "back three", "back four", "wing-back", "pivot",
+    "double pivot", "box midfield", "man-marking", "zonal", "set piece", "xg", "possession", "explained", "analysis",
+    "4-3-3", "4-2-3-1", "3-5-2", "3-4-3", "4-4-2", "3-4-2-1", "4-1-4-1", "5-3-2", "2-3-5", "3-2-5"
   ],
   "pillars": {
-    "breakdown":  {"topic_hashtag": "#tacticalanalysis", "extra_hashtag": "#matchanalysis"},
-    "explained":  {"topic_hashtag": "#formation",        "extra_hashtag": "#footballmanager"},
-    "player":     {"topic_hashtag": "#playeranalysis",   "extra_hashtag": "#scouting"},
-    "debate":     {"topic_hashtag": "#footballdebate",   "extra_hashtag": "#footballtalk"},
-    "quiz":       {"topic_hashtag": "#footballquiz",     "extra_hashtag": "#footballtrivia"}
+    "breakdown": {"label": "Tactical Breakdown", "share": 0.35, "topic_hashtag": "#tacticalanalysis", "extra_hashtag": "#matchanalysis",
+                  "signals": ["vs", "beat", "won", "lost", "press", "decided", "breakdown", "how"]},
+    "explained": {"label": "Formation / Concept Explained", "share": 0.20, "topic_hashtag": "#formation", "extra_hashtag": "#footballmanager",
+                  "signals": ["explained", "what is", "formation", "role", "concept", "guide", "beginners"]},
+    "player":    {"label": "Player Role Profile", "share": 0.15, "topic_hashtag": "#playeranalysis", "extra_hashtag": "#scouting",
+                  "signals": ["why", "best", "underrated", "role", "profile", "player"]},
+    "debate":    {"label": "Debate / Hot Take", "share": 0.15, "topic_hashtag": "#footballdebate", "extra_hashtag": "#footballtalk",
+                  "signals": ["change my mind", "agree", "disagree", "hot take", "overrated", "better", "greatest"]},
+    "quiz":      {"label": "Interactive / Quiz", "share": 0.15, "topic_hashtag": "#footballquiz", "extra_hashtag": "#footballtrivia",
+                  "signals": ["guess", "quiz", "name the", "who", "xi", "build your"]}
   },
   "competitions": {
     "Premier League": "#premierleague",
@@ -25,8 +32,21 @@
     "Serie A": "#seriea",
     "Bundesliga": "#bundesliga",
     "Ligue 1": "#ligue1",
+    "Europa League": "#europaleague",
+    "Conference League": "#conferenceleague",
+    "FA Cup": "#facup",
     "World Cup": "#worldcup",
-    "Europa League": "#europaleague"
+    "Euros": "#euro",
+    "Primeira Liga": "#ligaportugal"
   },
-  "avoid_hashtags": ["#football", "#soccer", "#fyp", "#viral", "#explore", "#explorepage", "#follow4follow", "#like4like", "#instagood"]
+  "avoid_hashtags": ["#football", "#soccer", "#fyp", "#foryou", "#viral", "#explore", "#explorepage", "#reels",
+                     "#follow4follow", "#followforfollow", "#like4like", "#likeforlike", "#instagood", "#trending"],
+  "cta_send": ["send this", "send it", "share this", "tag a", "tag the", "tag your"],
+  "cta_other": ["save", "comment", "drop", "👇", "agree", "disagree", "follow", "which", "who", "?"],
+  "feeds": [
+    "https://feeds.bbci.co.uk/sport/football/rss.xml",
+    "https://www.theguardian.com/football/rss",
+    "https://www.espn.com/espn/rss/soccer/news",
+    "https://www.skysports.com/rss/12040"
+  ]
 }
