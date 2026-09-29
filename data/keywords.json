@@ -1,0 +1,32 @@
+{
+  "brand": {
+    "name": "Beyond The Formation",
+    "handle": "@beyond_the_formationn",
+    "hashtag": "#beyondtheformation"
+  },
+  "core_keywords": ["football tactics", "tactical analysis", "formation explained", "football analysis"],
+  "core_hashtags": ["#footballtactics", "#tacticalanalysis"],
+  "topic_keywords": [
+    "high press", "gegenpressing", "low block", "inverted full-back", "false 9",
+    "build-up play", "half-spaces", "overload", "rest defence", "counter-attack",
+    "4-3-3", "4-2-3-1", "3-5-2", "3-4-3", "4-4-2", "2-3-5"
+  ],
+  "pillars": {
+    "breakdown":  {"topic_hashtag": "#tacticalanalysis", "extra_hashtag": "#matchanalysis"},
+    "explained":  {"topic_hashtag": "#formation",        "extra_hashtag": "#footballmanager"},
+    "player":     {"topic_hashtag": "#playeranalysis",   "extra_hashtag": "#scouting"},
+    "debate":     {"topic_hashtag": "#footballdebate",   "extra_hashtag": "#footballtalk"},
+    "quiz":       {"topic_hashtag": "#footballquiz",     "extra_hashtag": "#footballtrivia"}
+  },
+  "competitions": {
+    "Premier League": "#premierleague",
+    "Champions League": "#championsleague",
+    "La Liga": "#laliga",
+    "Serie A": "#seriea",
+    "Bundesliga": "#bundesliga",
+    "Ligue 1": "#ligue1",
+    "World Cup": "#worldcup",
+    "Europa League": "#europaleague"
+  },
+  "avoid_hashtags": ["#football", "#soccer", "#fyp", "#viral", "#explore", "#explorepage", "#follow4follow", "#like4like", "#instagood"]
+}
