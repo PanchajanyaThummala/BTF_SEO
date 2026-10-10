@@ -38,7 +38,7 @@ Instagram search works like a search engine now. Keywords in your **caption, on-
 - Before using a new tag, search it. If "Recent" shows nothing or the posts are hidden, the tag is restricted. Don't use it.
 
 ## Keyword research workflow (weekly, 15 min)
-1. Type your topic into Instagram search, e.g. "football tac…", and write down the autocomplete suggestions.
+1. Run `btf trends` and `btf keywords "<topic>"`, and type your topic into Instagram search, e.g. "football tac…", and write down the autocomplete suggestions.
 2. Check Google Trends and YouTube autocomplete for this week's names: new signings, sacked managers, derby games.
 3. Update `data/keywords.json` with the hot entities.
-4. Write captions with `tools/caption_builder.py`.
+4. Run `btf keywords "<topic>"` to get real search phrases, and `btf caption` to write the post.

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "btf-seo"
+version = "1.0.0"
+description = "Instagram SEO engine for the Beyond The Formation football tactics page"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
+ai = ["anthropic"]
+
+[project.scripts]
+btf = "btf_seo.cli:main"
+
+[tool.setuptools]
+packages = ["btf_seo"]
+
+[tool.setuptools.package-data]
+btf_seo = ["static/*.html"]

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BTF SEO Engine</title>
+<style>
+:root{--bg:#f6f7f4;--card:#fff;--ink:#16201a;--muted:#5d6b62;--line:#dde3dc;--accent:#0f7a3d;--accent-ink:#fff;--bad:#b3261e;--good:#0f7a3d;--field:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1511;--card:#17201a;--ink:#e6efe8;--muted:#9db0a3;--line:#2a372e;--accent:#4cc27a;--accent-ink:#0b130e;--bad:#ff8a80;--good:#4cc27a;--field:#101812}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:20px 16px 0;max-width:1100px;margin:0 auto}
+header h1{margin:0;font-size:22px}header p{margin:2px 0 0;color:var(--muted)}
+nav{display:flex;gap:6px;flex-wrap:wrap;max-width:1100px;margin:16px auto 0;padding:0 16px}
+nav button{background:transparent;border:1px solid var(--line);color:var(--ink);padding:7px 14px;border-radius:99px;cursor:pointer;font:inherit}
+nav button.active{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+main{max-width:1100px;margin:0 auto;padding:16px}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px;overflow-x:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:3px}
+input,select,textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--field);color:var(--ink);font:inherit}
+textarea{min-height:90px;resize:vertical}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:9px 16px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.secondary{background:transparent;color:var(--ink);border:1px solid var(--line)}
+pre{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px;margin:0}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--muted)}
+.score{font-size:42px;font-weight:700;color:var(--accent)}.ok{color:var(--good)}.bad{color:var(--bad)}.muted{color:var(--muted)}
+.row{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start}.row>*{flex:1 1 320px;min-width:0}
+.err{color:var(--bad);white-space:pre-wrap}
+.chk{display:flex;gap:6px;align-items:center;margin-top:8px}.chk input{width:auto}
+</style>
+</head>
+<body>
+<header><h1>Beyond The Formation · SEO Engine</h1><p>@beyond_the_formationn: get found, get recommended, get sent.</p></header>
+<nav id="tabs"></nav>
+<main>
+
+<section class="panel" id="caption">
+  <div class="card">
+    <div class="grid">
+      <div><label>Pillar</label><select id="c_pillar"><option value="breakdown">Tactical breakdown</option><option value="explained">Formation / concept explained</option><option value="player">Player role</option><option value="debate">Debate / hot take</option><option value="quiz">Quiz</option></select></div>
+      <div><label>Team</label><input id="c_team" placeholder="Arsenal"></div>
+      <div><label>Opponent</label><input id="c_opponent" placeholder="Chelsea"></div>
+      <div><label>Player</label><input id="c_player" placeholder="Declan Rice"></div>
+      <div><label>Competition</label><input id="c_competition" placeholder="Premier League"></div>
+      <div><label>Tactic / topic</label><input id="c_topic" placeholder="high press"></div>
+    </div>
+    <label style="margin-top:10px">Your hook (optional)</label><input id="c_hook" placeholder="How Arsenal broke Chelsea's press">
+    <label style="margin-top:10px">Key points (one per line)</label><textarea id="c_points" placeholder="Full-back tucks in to make a 2-3-5&#10;Rice drops between the CBs&#10;Saka isolates the left-back"></textarea>
+    <div class="chk"><input type="checkbox" id="c_ai"><label for="c_ai" style="margin:0">Write with Claude (needs ANTHROPIC_API_KEY + <code>pip install anthropic</code>)</label></div>
+    <button class="btn" onclick="genCaption()">Generate post package</button>
+  </div>
+  <div id="c_out"></div>
+</section>
+
+<section class="panel" id="score">
+  <div class="card">
+    <label>Caption</label><textarea id="s_caption" style="min-height:180px"></textarea>
+    <div class="grid" style="margin-top:10px">
+      <div><label>On-screen hook (optional)</label><input id="s_screen"></div>
+      <div><label>Alt text (optional)</label><input id="s_alt"></div>
+    </div>
+    <button class="btn" onclick="scoreIt()">Score it</button>
+  </div>
+  <div id="s_out"></div>
+</section>
+
+<section class="panel" id="trends">
+  <div class="card"><button class="btn" onclick="loadTrends()">Scan football news now</button> <span class="muted">BBC, Guardian, ESPN, Sky feeds</span></div>
+  <div id="t_out"></div>
+</section>
+
+<section class="panel" id="keywords">
+  <div class="card">
+    <label>Seed keywords (comma separated)</label><input id="k_seed" value="football tactics, arsenal tactics">
+    <div class="chk"><input type="checkbox" id="k_deep"><label for="k_deep" style="margin:0">Deep scan (a–z expansion, slower)</label></div>
+    <button class="btn" onclick="loadKeywords()">Research</button>
+  </div>
+  <div id="k_out"></div>
+</section>
+
+<section class="panel" id="calendar">
+  <div class="card">
+    <div class="grid">
+      <div><label>Start date</label><input type="date" id="p_start"></div>
+      <div><label>Weeks</label><input type="number" id="p_weeks" value="2" min="1" max="12"></div>
+    </div>
+    <label style="margin-top:10px">Fixtures CSV (optional): date,home,away,competition</label>
+    <textarea id="p_fixtures" placeholder="date,home,away,competition&#10;2026-10-04,Arsenal,Liverpool,Premier League"></textarea>
+    <div class="chk"><input type="checkbox" id="p_trends" checked><label for="p_trends" style="margin:0">Fill slots with trending topics</label></div>
+    <button class="btn" onclick="buildCal()">Build calendar</button>
+  </div>
+  <div id="p_out"></div>
+</section>
+
+<section class="panel" id="analytics">
+  <div class="card">
+    <label>Upload Insights CSV (Meta Business Suite → Insights → Content → Export)</label>
+    <input type="file" id="a_file" accept=".csv">
+    <button class="btn" onclick="runAnalytics()">Analyse</button>
+  </div>
+  <div id="a_out"></div>
+</section>
+
+<section class="panel" id="profile">
+  <div class="card">
+    <div class="grid">
+      <div><label>Handle</label><input id="pr_handle" value="@beyond_the_formationn"></div>
+      <div><label>Name field</label><input id="pr_name" placeholder="Beyond The Formation"></div>
+      <div><label>Link in bio</label><input id="pr_link"></div>
+    </div>
+    <label style="margin-top:10px">Bio</label><textarea id="pr_bio"></textarea>
+    <button class="btn" onclick="auditProfile()">Audit profile</button>
+  </div>
+  <div id="pr_out"></div>
+</section>
+
+</main>
+<script>
+const TABS=[["caption","Caption Studio"],["score","SEO Score"],["trends","Trends & Ideas"],["keywords","Keywords"],["calendar","Calendar"],["analytics","Analytics"],["profile","Profile Audit"]];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pct=v=>typeof v==="number"&&v<1?(v*100).toFixed(2)+"%":esc(v);
+function show(id){document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.id===id));try{localStorage.setItem("btf_tab",id)}catch(e){}}
+TABS.forEach(([id,label])=>{const b=document.createElement("button");b.textContent=label;b.dataset.id=id;b.onclick=()=>show(id);$("tabs").appendChild(b)});
+let start="caption";try{start=localStorage.getItem("btf_tab")||start}catch(e){}show(start);
+$("p_start").value=new Date().toISOString().slice(0,10);
+
+async function api(path,body){
+  const r=await fetch(path,body?{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)}:{});
+  const j=await r.json();if(!r.ok)throw new Error(j.error||r.statusText);return j;
+}
+function busy(el){$(el).innerHTML='<div class="card muted">Working…</div>'}
+function fail(el,e){$(el).innerHTML=`<div class="card err">${esc(e.message)}</div>`}
+function table(rows,cols){if(!rows||!rows.length)return'<p class="muted">No data.</p>';
+  return`<table><thead><tr>${cols.map(c=>`<th>${esc(c[1])}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td>${c[2]?c[2](r[c[0]],r):pct(r[c[0]])}</td>`).join("")}</tr>`).join("")}</tbody></table>`}
+function scoreCard(s){return`<div class="card"><div class="score">${s.score}/100 <span class="muted" style="font-size:18px">grade ${esc(s.grade)}</span></div>
+  ${table(s.checks,[["ok","",v=>v?'<span class="ok">✔</span>':'<span class="bad">✘</span>'],["message","Check"],["points","Pts",(v,r)=>`${v}/${r.max_points}`]])}</div>`}
+function copyBtn(text){const id="cp"+Math.random().toString(36).slice(2);window[id]=text;return`<button class="btn secondary" onclick="navigator.clipboard.writeText(window['${id}'])">Copy</button>`}
+
+async function genCaption(){busy("c_out");try{
+  const p=await api("/api/caption",{pillar:$("c_pillar").value,team:$("c_team").value,opponent:$("c_opponent").value,player:$("c_player").value,competition:$("c_competition").value,topic:$("c_topic").value,hook:$("c_hook").value,points:$("c_points").value.split("\n"),ai:$("c_ai").checked});
+  $("c_out").innerHTML=(p.warning?`<div class="card err">${esc(p.warning)}</div>`:"")+`<div class="row"><div>
+   <div class="card"><h3 style="margin-top:0">Caption <span class="muted" style="font-size:13px">(${esc(p.source)})</span></h3><pre>${esc(p.caption)}</pre>${copyBtn(p.caption)}</div>
+   <div class="card"><h3 style="margin-top:0">Alt text</h3><pre>${esc(p.alt_text)}</pre>${copyBtn(p.alt_text)}</div></div><div>
+   <div class="card"><h3 style="margin-top:0">Hooks (A/B test with Trial Reels)</h3><ol>${p.hook_options.map(h=>`<li>${esc(h)}</li>`).join("")}</ol>
+   <p><b>On-screen:</b> ${esc(p.on_screen_text)}<br><b>Cover:</b> ${esc(p.cover_title)}<br><b>Say first:</b> ${esc(p.voiceover_opening)}</p></div>
+   ${scoreCard(p.score)}</div></div>`;
+}catch(e){fail("c_out",e)}}
+
+async function scoreIt(){busy("s_out");try{$("s_out").innerHTML=scoreCard(await api("/api/score",{caption:$("s_caption").value,on_screen_text:$("s_screen").value,alt_text:$("s_alt").value}))}catch(e){fail("s_out",e)}}
+
+async function loadTrends(){busy("t_out");try{const r=await api("/api/trends");
+  $("t_out").innerHTML=`<div class="card"><h3 style="margin-top:0">Post these next</h3>${table(r.ideas,[["idea","Idea"],["pillar","Pillar"],["why","Why it's hot"]])}</div>
+  <div class="card"><h3 style="margin-top:0">Trending names</h3>${table(r.trends,[["name","Name"],["kind","Type"],["score","Heat",v=>esc(v)],["mentions","Mentions",v=>esc(v)],["headlines","Latest",v=>v&&v[0]?`<a href="${esc(v[0].link)}" target="_blank" rel="noopener">${esc(v[0].title)}</a>`:""]])}</div>`
+  +(r.errors.length?`<div class="card err">${r.errors.map(esc).join("\n")}</div>`:"");
+}catch(e){fail("t_out",e)}}
+
+async function loadKeywords(){busy("k_out");try{const r=await api(`/api/keywords?seed=${encodeURIComponent($("k_seed").value)}&deep=${$("k_deep").checked?1:0}`);
+  $("k_out").innerHTML=`<div class="card">${table(r.keywords,[["phrase","Phrase"],["score","Score",v=>esc(v)],["intent","Intent"],["pillar","Pillar"],["sources","Seen on",v=>esc(v.join(", "))]])}</div>`+(r.errors.length?`<div class="card err">${r.errors.map(esc).join("\n")}</div>`:"");
+}catch(e){fail("k_out",e)}}
+
+function download(name,text,type){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click()}
+async function buildCal(){busy("p_out");try{const r=await api("/api/calendar",{start:$("p_start").value,weeks:$("p_weeks").value,fixtures_csv:$("p_fixtures").value.trim(),use_trends:$("p_trends").checked});
+  window._cal=r;$("p_out").innerHTML=`<div class="card"><button class="btn secondary" onclick="download('btf-calendar.ics',_cal.ics,'text/calendar')">Download .ics</button> <button class="btn secondary" onclick="download('btf-calendar.csv',_cal.csv,'text/csv')">Download .csv</button>
+  ${table(r.slots,[["date","Date"],["weekday","Day"],["format","Format"],["pillar","Pillar"],["topic","Topic"],["reason","Why"]])}</div>`;
+}catch(e){fail("p_out",e)}}
+
+async function runAnalytics(){const f=$("a_file").files[0];if(!f)return;busy("a_out");try{const r=await api("/api/analytics",{csv:await f.text()});
+  const k=Object.entries(r.kpis).map(([n,v])=>({kpi:n.replace("_"," "),value:v.value,target:v.target,ok:v.ok}));
+  $("a_out").innerHTML=`<div class="card"><h3 style="margin-top:0">${r.posts} posts · avg reach ${r.avg_reach.toLocaleString()}</h3>${table(k,[["kpi","KPI"],["value","You"],["target","Target"],["ok","",v=>v?'<span class="ok">✔</span>':'<span class="bad">✘</span>']])}</div>
+  <div class="card"><h3 style="margin-top:0">What to do next</h3><ul>${r.recommendations.map(x=>`<li>${esc(x).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>")}</li>`).join("")}</ul></div>
+  <div class="card"><h3 style="margin-top:0">By pillar</h3>${table(r.by_pillar,[["group","Pillar"],["posts","Posts",v=>esc(v)],["avg_reach","Avg reach",v=>esc(v)],["send_rate","Sends/reach"],["save_rate","Saves/reach"],["index","Index",v=>esc(v)]])}</div>
+  <div class="card"><h3 style="margin-top:0">By weekday</h3>${table(r.by_weekday,[["group","Day"],["posts","Posts",v=>esc(v)],["avg_reach","Avg reach",v=>esc(v)],["send_rate","Sends/reach"],["index","Index",v=>esc(v)]])}</div>
+  <div class="card"><h3 style="margin-top:0">Top posts</h3>${table(r.top,[["date","Date"],["first_line","First line"],["pillar","Pillar"],["reach","Reach",v=>esc(v)],["send_rate","Sends"],["seo_score","SEO",v=>esc(v)],["index","Index",v=>esc(v)]])}</div>`;
+}catch(e){fail("a_out",e)}}
+
+async function auditProfile(){busy("pr_out");try{const r=await api("/api/profile",{handle:$("pr_handle").value,name:$("pr_name").value,bio:$("pr_bio").value,link:$("pr_link").value});
+  $("pr_out").innerHTML=`<div class="card"><div class="score">${r.score}/100</div>${table(r.checks,[["ok","",v=>v?'<span class="ok">✔</span>':'<span class="bad">✘</span>'],["area","Area"],["message","Finding"]])}</div>
+  <div class="card"><h3 style="margin-top:0">Fixes</h3>${r.suggestions.map(s=>`<pre style="margin-bottom:8px">${esc(s)}</pre>`).join("")}</div>`;
+}catch(e){fail("pr_out",e)}}
+</script>
+</body>
+</html>

@@ -12,7 +12,7 @@
 
 ## Days 8–30: Consistency
 - [ ] Post 5 Reels and 2 carousels every week, following `06-posting-calendar.md`
-- [ ] Check every caption with `tools/seo_check.py` (score ≥ 80)
+- [ ] Check every caption with `btf score` (score ≥ 80)
 - [ ] Test 2 hooks a week with Trial Reels
 - [ ] Reply to every comment within the first hour
 - [ ] Start a Broadcast Channel
