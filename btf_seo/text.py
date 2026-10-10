@@ -68,7 +68,8 @@ def _entity_index():
 
 # Aliases that are ordinary English words: only count them when capitalised in the source.
 AMBIGUOUS = {"city", "united", "reds", "blues", "villa", "rice", "slot", "kane", "palmer", "madrid", "milan",
-             "inter", "pep", "spurs", "flick", "alonso", "rodri", "atletico"}
+             "inter", "pep", "spurs", "flick", "alonso", "rodri", "atletico", "anderson", "bruno",
+             "forest", "palace", "hull", "rose", "sage", "andrews", "bernardo", "leeds"}
 
 
 def find_entities(text):
